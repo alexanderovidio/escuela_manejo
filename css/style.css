@@ -1,0 +1,12 @@
+.fondo{
+    background-image: url("../img/background_material.jpg");
+    height: 100vh;
+    background-size: cover;
+}
+
+input{
+    background: transparent !important;
+    color: #d32f2f !important;
+    text-align: center;
+    
+}
