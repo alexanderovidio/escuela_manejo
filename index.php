@@ -5,9 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESCUELA DE MANEJO GRUPO #4</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/font_awesome/all.min.css">
+    <?php include_once "header.php"; ?>
 </head>
 <body>
     <?php
@@ -28,7 +26,7 @@
 
             if( $username != "" && $password != "" ) {
                 // $stmt = $conexion->prepare("SELECT count(*) as cntUser,usuario_id FROM usuarios WHERE usuario=:usuario and password=:contra ");
-                $stmt = $conexion->prepare("SELECT count(*) as cntUser FROM usuarios WHERE usuario=:username and password=:password ");
+                $stmt = $conexion->prepare("SELECT count(*) as cntUser, usuario_id, usuario FROM usuarios WHERE usuario=:username and password=:password GROUP BY usuario_id, usuario");
                 $stmt->bindValue(':username', $username, PDO::PARAM_STR);
                 $stmt->bindValue(':password', $password, PDO::PARAM_STR);
                 $stmt->execute();
@@ -38,8 +36,13 @@
 
                 if($count > 0){
                     // die("aqui llegó");
-                    $userid = $record['id'];
+                    session_start();
+                    $userid = $record['usuario_id'];
+                    $userp = $record['usuario'];
+                    // echo $userid;
                     $_SESSION['userid'] = $userid;
+                    $_SESSION['usr'] = $userp;
+                    // echo $_SESSION['userid'];
                     header('Location: main.php');
                     die();
                 }else{
